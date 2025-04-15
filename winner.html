@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winner!</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    
+    <div class="winner-container">
+        <h1 id="winnerMessage">Player X Wins!</h1>
+        <div id="winnerSymbol" class="winner-symbol"></div>
+        <button id="playAgainButton">Play Again</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        // Get winner from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const winner = urlParams.get('winner');
+        
+        // Set display
+        if (winner) {
+            document.getElementById('winnerMessage').textContent = 
+                winner === 'draw' ? "It's a Draw!" : `Player ${winner} Wins!`;
+            
+            if (winner !== 'draw') {
+                const symbol = document.getElementById('winnerSymbol');
+                symbol.textContent = winner;
+                symbol.classList.add(winner.toLowerCase());
+                
+                // Trigger confetti if loaded
+                if (typeof confetti === 'function') {
+                    triggerConfetti(winner);
+                }
+            }
+        }
+
+        // Confetti function
+        function triggerConfetti(winner) {
+            const colors = winner === 'X' ? ['#ff007f', '#ff66b2'] : ['#007fff', '#66b3ff'];
+            
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: colors
+            });
+            
+            setTimeout(() => {
+                confetti({
+                    particleCount: 80,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                
+                confetti({
+                    particleCount: 80,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+            }, 300);
+        }
+
+        // Play Again button
+        document.getElementById('playAgainButton').addEventListener('click', () => {
+            window.location.href = "game.html";
+        });
+    </script>
+</body>
+</html>
