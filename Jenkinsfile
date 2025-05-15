@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'docker' // Ensure the Jenkins node has Docker installed
-    }
+    agent any
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds') // Docker Hub credentials stored in Jenkins
