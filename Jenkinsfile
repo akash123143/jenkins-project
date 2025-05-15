@@ -23,13 +23,13 @@ pipeline {
             steps {
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/main']], // Change to '*/master' if needed
+                    branches: [[name: '*/master']], // Change to '*/master' if needed
                     extensions: [
                         [$class: 'CleanBeforeCheckout'],
                         [$class: 'CloneOption', depth: 1, shallow: true]
                     ],
                     userRemoteConfigs: [[
-                        credentialsId: 'GITHUB-CREDENTIALS',
+                        credentialsId: 'github-credentials',
                         url: 'https://github.com/akash123143/jenkins-project.git' // Replace with your repo URL
                     ]]
                 ])
