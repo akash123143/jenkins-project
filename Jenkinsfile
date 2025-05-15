@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds') // Docker Hub credentials stored in Jenkins
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // Docker Hub credentials stored in Jenkins
         DOCKERHUB_REPO = 'akash123143/tap'            // Replace with your Docker Hub repo
         APP_DIR = 'app'
         DOCKER_IMAGE = "${DOCKERHUB_REPO}:${env.BUILD_NUMBER}"
@@ -52,7 +52,7 @@ pipeline {
                     unstash 'built-app'
                     script {
                         docker.build("${DOCKER_IMAGE}")
-                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
+                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
                             docker.image("${DOCKER_IMAGE}").push()
                         }
                     }
