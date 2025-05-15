@@ -21,12 +21,11 @@ pipeline {
     stages {
         stage('Checkout Source Code') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
+                checkout([ 
+                    $class: 'GitSCM', 
                     branches: [[name: '*/master']], // Change to '*/master' if needed
                     extensions: [
-                        [$class: 'CleanBeforeCheckout'],
-                        [$class: 'CloneOption', depth: 1, shallow: true]
+                        [$class: 'CleanBeforeCheckout']
                     ],
                     userRemoteConfigs: [[
                         credentialsId: 'github-credentials',
@@ -39,8 +38,13 @@ pipeline {
         stage('Install Dependencies & Run Tests') {
             steps {
                 dir(APP_DIR) {
-                    sh 'npm ci --only=production'
-                    sh 'npm test'
+                    script {
+                        // Use the official Node.js image
+                        docker.image('node:16').inside {
+                            sh 'npm ci --only=production'
+                            sh 'npm test'
+                        }
+                    }
                     stash includes: '**', name: 'built-app'
                 }
             }
