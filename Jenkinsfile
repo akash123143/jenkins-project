@@ -1,6 +1,7 @@
 pipeline {
-    agent any
-
+    agent {
+       label 'js-agent'
+    }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // Docker Hub credentials stored in Jenkins
         DOCKERHUB_REPO = 'akash123143/tap'            // Replace with your Docker Hub repo
@@ -39,8 +40,8 @@ pipeline {
         stage('Install Dependencies & Run Tests') {
             steps {
                 dir(APP_DIR) {
-                    sh 'npm ci --only=production'    // Install dependencies (no Docker)
-                    sh 'npm test'                    // Run tests
+                    sh 'npm ci --only=production'
+                    sh 'npm test'
                     stash includes: '**', name: 'built-app'
                 }
             }
@@ -67,4 +68,3 @@ pipeline {
         }
     }
 }
-
