@@ -11,7 +11,7 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))   // Keep last 10 builds
-        timeout(time: 15, unit: 'MINUTES')               // Build timeout
+        timeout(time: 40, unit: 'MINUTES')               // Build timeout
         disableConcurrentBuilds()                        // Avoid parallel builds
     }
 
