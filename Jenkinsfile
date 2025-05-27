@@ -40,7 +40,7 @@ pipeline {
         stage('Install Dependencies & Run Tests') {
             steps {
                 dir(APP_DIR) {
-                    sh 'npm ci --only=production'
+                    sh 'npm ci'
                     sh 'npm test'
                     stash includes: '**', name: 'built-app'
                 }
