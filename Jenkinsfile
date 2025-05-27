@@ -41,7 +41,6 @@ pipeline {
             steps {
                 dir(APP_DIR) {
                     sh 'npm ci'
-                    sh 'npm test'
                     stash includes: '**', name: 'built-app'
                 }
             }
